@@ -1,0 +1,129 @@
+<div>
+  <h2 id="page-heading" data-cy="CommandeHeading">
+    <span gdilTranslate="microserviceCommandeApp.microserviceCommandeCommande.home.title">Commandes</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span gdilTranslate="microserviceCommandeApp.microserviceCommandeCommande.home.refreshListLabel">Actualiser la liste</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-commande"
+        [routerLink]="['/microservicecommande/commande/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span gdilTranslate="microserviceCommandeApp.microserviceCommandeCommande.home.createLabel">Créer un nouveau Commande</span>
+      </button>
+    </div>
+  </h2>
+
+  <gdil-alert-error></gdil-alert-error>
+
+  <gdil-alert></gdil-alert>
+
+  @if (commandes?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span gdilTranslate="microserviceCommandeApp.microserviceCommandeCommande.home.notFound">Aucun Commande trouvé</span>
+    </div>
+  }
+
+  @if (commandes && commandes.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr gdilSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" gdilSortBy="id">
+              <div class="d-flex">
+                <span gdilTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" gdilSortBy="clientId">
+              <div class="d-flex">
+                <span gdilTranslate="microserviceCommandeApp.microserviceCommandeCommande.clientId">Client Id</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" gdilSortBy="produitId">
+              <div class="d-flex">
+                <span gdilTranslate="microserviceCommandeApp.microserviceCommandeCommande.produitId">Produit Id</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" gdilSortBy="dateCommande">
+              <div class="d-flex">
+                <span gdilTranslate="microserviceCommandeApp.microserviceCommandeCommande.dateCommande">Date Commande</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (commande of commandes; track trackId(commande)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/microservicecommande/commande', commande.id, 'view']">{{ commande.id }}</a>
+              </td>
+              <td>{{ commande.clientId }}</td>
+              <td>{{ commande.produitId }}</td>
+              <td>{{ commande.dateCommande | formatMediumDatetime }}</td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a
+                    [routerLink]="['/microservicecommande/commande', commande.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                  >
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" gdilTranslate="entity.action.view">Voir</span>
+                  </a>
+
+                  <a
+                    [routerLink]="['/microservicecommande/commande', commande.id, 'edit']"
+                    class="btn btn-primary btn-sm"
+                    data-cy="entityEditButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" gdilTranslate="entity.action.edit">Editer</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(commande)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" gdilTranslate="entity.action.delete">Supprimer</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (commandes && commandes.length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <gdil-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></gdil-item-count>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

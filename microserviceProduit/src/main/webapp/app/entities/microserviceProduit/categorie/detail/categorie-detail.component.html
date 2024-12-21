@@ -1,0 +1,36 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (categorie(); as categorieRef) {
+      <div>
+        <h2 data-cy="categorieDetailsHeading">
+          <span gdilTranslate="microserviceProduitApp.microserviceProduitCategorie.detail.title">Categorie</span>
+        </h2>
+
+        <hr />
+
+        <gdil-alert-error></gdil-alert-error>
+
+        <gdil-alert></gdil-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span gdilTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ categorieRef.id }}</span>
+          </dd>
+          <dt><span gdilTranslate="microserviceProduitApp.microserviceProduitCategorie.nomCategorie">Nom Categorie</span></dt>
+          <dd>
+            <span>{{ categorieRef.nomCategorie }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span gdilTranslate="entity.action.back">Retour</span>
+        </button>
+
+        <button type="button" [routerLink]="['/microserviceproduit/categorie', categorieRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span gdilTranslate="entity.action.edit">Editer</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

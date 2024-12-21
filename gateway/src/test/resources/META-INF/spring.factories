@@ -1,0 +1,2 @@
+org.springframework.test.context.ContextCustomizerFactory = gdil.gateway.config.\
+    SqlTestContainersSpringContextCustomizerFactory

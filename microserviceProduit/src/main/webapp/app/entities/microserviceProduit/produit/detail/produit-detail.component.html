@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (produit(); as produitRef) {
+      <div>
+        <h2 data-cy="produitDetailsHeading">
+          <span gdilTranslate="microserviceProduitApp.microserviceProduitProduit.detail.title">Produit</span>
+        </h2>
+
+        <hr />
+
+        <gdil-alert-error></gdil-alert-error>
+
+        <gdil-alert></gdil-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span gdilTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ produitRef.id }}</span>
+          </dd>
+          <dt><span gdilTranslate="microserviceProduitApp.microserviceProduitProduit.nomProduit">Nom Produit</span></dt>
+          <dd>
+            <span>{{ produitRef.nomProduit }}</span>
+          </dd>
+          <dt><span gdilTranslate="microserviceProduitApp.microserviceProduitProduit.descriptionProduit">Description Produit</span></dt>
+          <dd>
+            <span>{{ produitRef.descriptionProduit }}</span>
+          </dd>
+          <dt><span gdilTranslate="microserviceProduitApp.microserviceProduitProduit.prixProduit">Prix Produit</span></dt>
+          <dd>
+            <span>{{ produitRef.prixProduit }}</span>
+          </dd>
+          <dt><span gdilTranslate="microserviceProduitApp.microserviceProduitProduit.imageProduit">Image Produit</span></dt>
+          <dd>
+            <span>{{ produitRef.imageProduit }}</span>
+          </dd>
+          <dt><span gdilTranslate="microserviceProduitApp.microserviceProduitProduit.categorie">Categorie</span></dt>
+          <dd>
+            @if (produit()!.categorie) {
+              <div>
+                <a [routerLink]="['/microserviceproduit/categorie', produit()!.categorie?.id, 'view']">{{ produitRef.categorie?.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span gdilTranslate="entity.action.back">Retour</span>
+        </button>
+
+        <button type="button" [routerLink]="['/microserviceproduit/produit', produitRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span gdilTranslate="entity.action.edit">Editer</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

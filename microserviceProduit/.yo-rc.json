@@ -1,0 +1,30 @@
+{
+  "generator-jhipster": {
+    "applicationIndex": 1,
+    "applicationType": "microservice",
+    "authenticationType": "jwt",
+    "baseName": "microserviceProduit",
+    "buildTool": "maven",
+    "cacheProvider": "ehcache",
+    "clientFramework": "angular",
+    "databaseType": "sql",
+    "devDatabaseType": "postgresql",
+    "devServerPort": 4201,
+    "enableHibernateCache": true,
+    "enableSwaggerCodegen": true,
+    "enableTranslation": true,
+    "entities": ["Categorie", "Produit"],
+    "gatewayServerPort": "8080",
+    "jhiPrefix": "gdil",
+    "jhipsterVersion": "8.7.3",
+    "jwtSecretKey": "M2JiMzc0Mzk1ZTQ5OGU3ZDJkNDM0OTNmMzA3YjJiY2ZlOThmMTQzY2ZkMDJhNWMxZWY2OTYwNTFhYjNiZGU4NjFiMmQyM2E2MjdhNzllNTg2OTMyM2E5M2MxOGQxNGY5NTMwYWMyMGRjYjI5NTNmZmYxNTg3YzBkYjhmMTAyYmE=",
+    "languages": ["fr", "en"],
+    "lastLiquibaseTimestamp": 1734649158000,
+    "nativeLanguage": "fr",
+    "packageName": "gdil.produit",
+    "prodDatabaseType": "postgresql",
+    "serverPort": "8081",
+    "serviceDiscoveryType": "consul",
+    "skipUserManagement": true
+  }
+}

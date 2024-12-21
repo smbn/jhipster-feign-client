@@ -1,0 +1,121 @@
+//**************************************************** Configuration de l'application Gateway ****************************************************
+
+application {
+  config {
+    baseName gateway
+    applicationType gateway
+    packageName gdil.gateway
+    serviceDiscoveryType consul
+    authenticationType jwt
+    prodDatabaseType postgresql
+    devDatabaseType postgresql
+    serverPort 8080
+    buildTool maven
+    clientFramework angular
+    cacheProvider ehcache
+    databaseType sql
+    enableSwaggerCodegen true
+    enableHibernateCache true
+    nativeLanguage fr
+    enableTranslation true
+    jhiPrefix gdil
+    languages [fr, en]
+    nativeLanguage fr
+    microfrontends [microserviceCommande, microserviceProduit]
+  }
+  entities Client
+}
+
+entity Client {
+  nom String required,
+  prenom String required,
+  adresse String,
+  telephone String required,
+  email String required unique
+}
+
+// Relation
+relationship OneToOne {
+  Client{user(id)} to User with builtInEntity
+}
+
+//**************************************************** Configuration du microservice Produit ****************************************************
+
+application {
+  config {
+    baseName microserviceProduit
+    applicationType microservice
+    packageName gdil.produit
+    serviceDiscoveryType consul
+    authenticationType jwt
+    prodDatabaseType postgresql
+    devDatabaseType postgresql
+    serverPort 8081
+    buildTool maven
+    clientFramework angular
+    cacheProvider ehcache
+    databaseType sql
+    enableSwaggerCodegen true
+    enableHibernateCache true
+    nativeLanguage fr
+    enableTranslation true
+    jhiPrefix gdil
+    languages [fr, en]
+    nativeLanguage fr
+  }
+  entities Categorie, Produit
+}
+
+// Définition des entités
+entity Categorie {
+  nomCategorie String required
+}
+
+entity Produit {
+  nomProduit String required,
+  descriptionProduit String,
+  prixProduit BigDecimal required,
+  imageProduit String
+}
+
+// Relations
+relationship OneToMany {
+  Categorie{produits} to Produit{categorie}
+}
+
+//**************************************************** Configuration du microservice Commande ****************************************************
+
+application {
+  config {
+    baseName microserviceCommande
+    applicationType microservice
+    packageName gdil.commande
+    serviceDiscoveryType consul
+    authenticationType jwt
+    prodDatabaseType postgresql
+    devDatabaseType postgresql
+    serverPort 8082
+    buildTool maven
+    clientFramework angular
+    cacheProvider ehcache
+    databaseType sql
+    enableSwaggerCodegen true
+    enableHibernateCache true
+    nativeLanguage fr
+    enableTranslation true
+    jhiPrefix gdil
+    languages [fr, en]
+    nativeLanguage fr
+  }
+  entities Commande
+}
+
+entity Commande {
+  clientId Long required,
+  produitId Long required,
+  dateCommande Instant required,
+}
+
+dto * with mapstruct
+service * with serviceImpl
+paginate * with pagination

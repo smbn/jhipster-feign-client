@@ -1,0 +1,43 @@
+{
+  "annotations": {
+    "changelogDate": "20241219225918"
+  },
+  "applications": ["microserviceProduit"],
+  "clientRootFolder": "microserviceProduit",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "nomProduit",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "descriptionProduit",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "prixProduit",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "imageProduit",
+      "fieldType": "String"
+    }
+  ],
+  "microserviceName": "microserviceProduit",
+  "name": "Produit",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "categorie",
+      "otherEntityRelationshipName": "produits",
+      "relationshipName": "categorie",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

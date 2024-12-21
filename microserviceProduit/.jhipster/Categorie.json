@@ -1,0 +1,30 @@
+{
+  "annotations": {
+    "changelogDate": "20241219225818"
+  },
+  "applications": ["microserviceProduit"],
+  "clientRootFolder": "microserviceProduit",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "nomCategorie",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "microserviceName": "microserviceProduit",
+  "name": "Categorie",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "produit",
+      "otherEntityRelationshipName": "categorie",
+      "relationshipName": "produits",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

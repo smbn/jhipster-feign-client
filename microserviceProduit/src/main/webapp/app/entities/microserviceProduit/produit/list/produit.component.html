@@ -1,0 +1,150 @@
+<div>
+  <h2 id="page-heading" data-cy="ProduitHeading">
+    <span gdilTranslate="microserviceProduitApp.microserviceProduitProduit.home.title">Produits</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span gdilTranslate="microserviceProduitApp.microserviceProduitProduit.home.refreshListLabel">Actualiser la liste</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-produit"
+        [routerLink]="['/microserviceproduit/produit/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span gdilTranslate="microserviceProduitApp.microserviceProduitProduit.home.createLabel">Créer un nouveau Produit</span>
+      </button>
+    </div>
+  </h2>
+
+  <gdil-alert-error></gdil-alert-error>
+
+  <gdil-alert></gdil-alert>
+
+  @if (produits?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span gdilTranslate="microserviceProduitApp.microserviceProduitProduit.home.notFound">Aucun Produit trouvé</span>
+    </div>
+  }
+
+  @if (produits && produits.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr gdilSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" gdilSortBy="id">
+              <div class="d-flex">
+                <span gdilTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" gdilSortBy="nomProduit">
+              <div class="d-flex">
+                <span gdilTranslate="microserviceProduitApp.microserviceProduitProduit.nomProduit">Nom Produit</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" gdilSortBy="descriptionProduit">
+              <div class="d-flex">
+                <span gdilTranslate="microserviceProduitApp.microserviceProduitProduit.descriptionProduit">Description Produit</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" gdilSortBy="prixProduit">
+              <div class="d-flex">
+                <span gdilTranslate="microserviceProduitApp.microserviceProduitProduit.prixProduit">Prix Produit</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" gdilSortBy="imageProduit">
+              <div class="d-flex">
+                <span gdilTranslate="microserviceProduitApp.microserviceProduitProduit.imageProduit">Image Produit</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" gdilSortBy="categorie.id">
+              <div class="d-flex">
+                <span gdilTranslate="microserviceProduitApp.microserviceProduitProduit.categorie">Categorie</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (produit of produits; track trackId(produit)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/microserviceproduit/produit', produit.id, 'view']">{{ produit.id }}</a>
+              </td>
+              <td>{{ produit.nomProduit }}</td>
+              <td>{{ produit.descriptionProduit }}</td>
+              <td>{{ produit.prixProduit }}</td>
+              <td>{{ produit.imageProduit }}</td>
+              <td>
+                @if (produit.categorie) {
+                  <div>
+                    <a [routerLink]="['/microserviceproduit/categorie', produit.categorie.id, 'view']">{{ produit.categorie.id }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a
+                    [routerLink]="['/microserviceproduit/produit', produit.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                  >
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" gdilTranslate="entity.action.view">Voir</span>
+                  </a>
+
+                  <a
+                    [routerLink]="['/microserviceproduit/produit', produit.id, 'edit']"
+                    class="btn btn-primary btn-sm"
+                    data-cy="entityEditButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" gdilTranslate="entity.action.edit">Editer</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(produit)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" gdilTranslate="entity.action.delete">Supprimer</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (produits && produits.length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <gdil-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></gdil-item-count>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

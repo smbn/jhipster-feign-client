@@ -1,0 +1,56 @@
+<div>
+  <h2>
+    <span id="metrics-page-heading" data-cy="metricsPageHeading" gdilTranslate="metrics.title">Métriques de l&apos;application</span>
+
+    <button class="btn btn-primary float-end" (click)="refresh()">
+      <fa-icon icon="sync"></fa-icon> <span gdilTranslate="metrics.refresh.button">Rafraîchir</span>
+    </button>
+  </h2>
+
+  <h3 gdilTranslate="metrics.jvm.title">Métriques de la JVM</h3>
+
+  @let metricsRef = metrics();
+  @if (metricsRef && !updatingMetrics()) {
+    <div class="row">
+      <gdil-jvm-memory class="col-md-4" [updating]="updatingMetrics()" [jvmMemoryMetrics]="metricsRef.jvm"></gdil-jvm-memory>
+
+      <gdil-jvm-threads class="col-md-4" [threads]="threads()"></gdil-jvm-threads>
+
+      <gdil-metrics-system
+        class="col-md-4"
+        [updating]="updatingMetrics()"
+        [systemMetrics]="metricsRef.processMetrics"
+      ></gdil-metrics-system>
+    </div>
+  }
+
+  @if (metricsRef?.garbageCollector; as metricsRefGarbageCollector) {
+    <gdil-metrics-garbagecollector
+      [updating]="updatingMetrics()"
+      [garbageCollectorMetrics]="metricsRefGarbageCollector"
+    ></gdil-metrics-garbagecollector>
+  }
+
+  @if (updatingMetrics()) {
+    <div class="well well-lg" gdilTranslate="metrics.updating">Mise à jour...</div>
+  }
+
+  @if (metricsRef?.['http.server.requests']; as metricsRefHttpServerRequests) {
+    <gdil-metrics-request [updating]="updatingMetrics()" [requestMetrics]="metricsRefHttpServerRequests"></gdil-metrics-request>
+  }
+
+  @if (metricsRef?.services; as metricsRefServices) {
+    <gdil-metrics-endpoints-requests
+      [updating]="updatingMetrics()"
+      [endpointsRequestsMetrics]="metricsRefServices"
+    ></gdil-metrics-endpoints-requests>
+  }
+
+  @if (metricsRef?.cache; as metricsRefCache) {
+    <gdil-metrics-cache [updating]="updatingMetrics()" [cacheMetrics]="metricsRefCache"></gdil-metrics-cache>
+  }
+
+  @if (metricsRef && metricsKeyExistsAndObjectNotEmpty('databases')) {
+    <gdil-metrics-datasource [updating]="updatingMetrics()" [datasourceMetrics]="metricsRef.databases"></gdil-metrics-datasource>
+  }
+</div>
